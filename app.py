@@ -58,6 +58,17 @@ def render_plotly(fig):
         except Exception:
             st.plotly_chart(fig)
 
+def render_result_metric(label, value):
+    st.markdown(
+        f"""
+        <div class="result-metric-card">
+            <div class="result-metric-label">{label}</div>
+            <div class="result-metric-value">{value}</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 # Page Configuration
 st.set_page_config(
     page_title="Cassava Disease Prediction - War Child Canada",
@@ -85,12 +96,52 @@ st.markdown("""
         border-radius: 10px;
         border-left: 5px solid #2563EB;
     }
+    .result-metric-card {
+        background-color: #F8FAFC;
+        border: 1px solid #D1D5DB;
+        border-radius: 10px;
+        padding: 12px 14px;
+        min-height: 88px;
+    }
+    .result-metric-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+    }
+    .result-metric-value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #111827;
+        line-height: 1.3;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
     .treatment-box {
         background-color: #F0FDF4;
         border: 1px solid #BBF7D0;
         border-radius: 8px;
         padding: 15px;
         margin-top: 10px;
+    }
+    @media (max-width: 768px) {
+        .main-header {
+            font-size: 1.6rem;
+        }
+        .sub-header {
+            font-size: 0.95rem;
+        }
+        .result-metric-card {
+            min-height: 78px;
+            padding: 10px 12px;
+        }
+        .result-metric-label {
+            font-size: 0.78rem;
+        }
+        .result-metric-value {
+            font-size: 0.92rem;
+        }
     }
     .stButton>button {
         border-radius: 6px;
@@ -225,8 +276,10 @@ if st.session_state.active_nav == "Diagnostic Scanner":
             st.caption(f"Active Model Engine: {model_name} (Input Resolution: {target_size[0]}x{target_size[1]}px)")
             
             c1, c2 = st.columns(2)
-            c1.metric("Disease Type", details.get('type', 'N/A'))
-            c2.metric("Severity Level", details.get('severity', 'N/A'))
+            with c1:
+                render_result_metric("Disease Type", details.get('type', 'N/A'))
+            with c2:
+                render_result_metric("Severity Level", details.get('severity', 'N/A'))
             
             st.markdown("#### Recommended Actions & Treatments")
             for idx, rec in enumerate(details.get('quick_advice', details.get('treatments', [])), 1):
