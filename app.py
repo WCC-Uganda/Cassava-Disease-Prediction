@@ -33,28 +33,28 @@ from utils.model_loader import load_cassava_model, predict_disease
 # Helper functions for Streamlit rendering compatibility
 def render_image(image, caption=None):
     try:
-        st.image(image, caption=caption, use_container_width=True)
+        st.image(image, caption=caption, width='stretch')
     except TypeError:
         try:
-            st.image(image, caption=caption, width='stretch')
+            st.image(image, caption=caption, use_container_width=True)
         except Exception:
             st.image(image, caption=caption)
 
 def render_dataframe(df):
     try:
-        st.dataframe(df, hide_index=True, use_container_width=True)
+        st.dataframe(df, hide_index=True, width='stretch')
     except TypeError:
         try:
-            st.dataframe(df, hide_index=True, width='stretch')
+            st.dataframe(df, hide_index=True, use_container_width=True)
         except Exception:
             st.dataframe(df, hide_index=True)
 
 def render_plotly(fig):
     try:
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     except TypeError:
         try:
-            st.plotly_chart(fig, width='stretch')
+            st.plotly_chart(fig, use_container_width=True)
         except Exception:
             st.plotly_chart(fig)
 
