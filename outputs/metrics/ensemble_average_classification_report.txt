@@ -1,0 +1,11 @@
+              precision    recall  f1-score   support
+
+         CBB      0.612     0.615     0.613       200
+        CBSD      0.808     0.773     0.790       436
+         CGM      0.880     0.725     0.795       495
+         CMD      0.958     0.958     0.958      2638
+     Healthy      0.649     0.780     0.709       510
+
+    accuracy                          0.875      4279
+   macro avg      0.781     0.770     0.773      4279
+weighted avg      0.880     0.875     0.876      4279
