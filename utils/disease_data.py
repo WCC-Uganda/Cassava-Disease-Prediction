@@ -1,4 +1,4 @@
-CLASS_SHORT = ['CMD', 'CBSD', 'CBB', 'CGM', 'Healthy']
+CLASS_SHORT = ['CBB', 'CBSD', 'CGM', 'CMD', 'Healthy']
 
 FULL_NAMES = {
     'CMD': 'Cassava Mosaic Disease',
