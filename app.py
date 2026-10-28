@@ -5,6 +5,7 @@ Developed for War Child Canada - West Nile Cassava Monitoring & School Feeding P
 
 import os
 import sys
+from io import BytesIO
 
 # Set legacy Keras mode for compatibility with models saved in Keras 2
 os.environ['TF_USE_LEGACY_KERAS'] = '1'
@@ -55,6 +56,14 @@ def render_plotly(fig):
         except Exception:
             st.plotly_chart(fig)
 
+def load_uploaded_image(file_obj):
+    if file_obj is None:
+        return None
+    image_bytes = file_obj.getvalue()
+    if not image_bytes:
+        return None
+    return Image.open(BytesIO(image_bytes)).convert("RGB")
+
 def render_result_metric(label, value):
     st.markdown(
         f"""
@@ -77,13 +86,16 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 2.2rem;
+        font-size: clamp(1.5rem, 4vw, 2.6rem);
         font-weight: 700;
         color: #1E3A8A;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
         margin-bottom: 0px;
     }
     .sub-header {
-        font-size: 1.05rem;
+        font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+        line-height: 1.45;
         color: #4B5563;
         margin-bottom: 20px;
     }
@@ -124,10 +136,11 @@ st.markdown("""
     }
     @media (max-width: 768px) {
         .main-header {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
         }
         .sub-header {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
+            margin-bottom: 14px;
         }
         .result-metric-card {
             min-height: 78px;
@@ -215,11 +228,11 @@ if st.session_state.active_nav == "Diagnostic Scanner":
         if input_type == "Upload Photo":
             uploaded_file = st.file_uploader("Upload a cassava leaf photo (.jpg, .jpeg, .png)", type=["jpg", "jpeg", "png"])
             if uploaded_file is not None:
-                uploaded_image = Image.open(uploaded_file)
+                uploaded_image = load_uploaded_image(uploaded_file)
         else:
             camera_file = st.camera_input("Capture leaf photo")
             if camera_file is not None:
-                uploaded_image = Image.open(camera_file)
+                uploaded_image = load_uploaded_image(camera_file)
                 
         if uploaded_image is not None:
             render_image(uploaded_image, caption="Uploaded Leaf Image")
