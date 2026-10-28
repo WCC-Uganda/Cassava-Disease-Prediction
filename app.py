@@ -33,12 +33,9 @@ from utils.model_loader import load_cassava_model, predict_disease
 # Helper functions for Streamlit rendering compatibility
 def render_image(image, caption=None):
     try:
-        st.image(image, caption=caption, width='stretch')
+        st.image(image, caption=caption, use_container_width=True)
     except TypeError:
-        try:
-            st.image(image, caption=caption, use_container_width=True)
-        except Exception:
-            st.image(image, caption=caption)
+        st.image(image, caption=caption)
 
 def render_dataframe(df):
     try:
@@ -158,12 +155,8 @@ if 'selected_disease_tab' not in st.session_state:
 
 # Sidebar Setup
 with st.sidebar:
-    logo_path = os.path.join(APP_DIR, "assets", "wcc_logo.png")
-    if os.path.exists(logo_path):
-        render_image(logo_path)
-    else:
-        st.title("WAR CHILD CANADA")
-        st.caption("West Nile Cassava Monitoring")
+    st.title("WCC")
+    st.caption("West Nile Cassava Monitoring")
         
     st.markdown("---")
     
@@ -184,27 +177,6 @@ with st.sidebar:
     
     st.markdown("---")
     
-    st.markdown("### Quick Disease Links")
-    st.caption("Jump directly to detailed notes in the Reference Guide:")
-    
-    quick_cols = st.columns(2)
-    if quick_cols[0].button("Mosaic (CMD)", key="link_cmd"):
-        st.session_state.selected_disease_tab = "CMD"
-        st.session_state.active_nav = "Disease Reference Guide"
-        st.rerun()
-    if quick_cols[1].button("Streak (CBSD)", key="link_cbsd"):
-        st.session_state.selected_disease_tab = "CBSD"
-        st.session_state.active_nav = "Disease Reference Guide"
-        st.rerun()
-    if quick_cols[0].button("Blight (CBB)", key="link_cbb"):
-        st.session_state.selected_disease_tab = "CBB"
-        st.session_state.active_nav = "Disease Reference Guide"
-        st.rerun()
-    if quick_cols[1].button("Green Mite (CGM)", key="link_cgm"):
-        st.session_state.selected_disease_tab = "CGM"
-        st.session_state.active_nav = "Disease Reference Guide"
-        st.rerun()
-        
     st.markdown("---")
     st.caption("Location: West Nile Region, Uganda")
     st.caption("Supported by War Child Canada School Feeding Project")
